@@ -17,10 +17,10 @@ var splash2 = {
 		tween.onComplete.add(onComplete, this);
 
 		// Add the background sound
-		bgSound.stop();
+		/*bgSound.stop();
 		bgSound = game.add.audio('jungle');
 		bgSound.play();
-		bgSound.loopFull();
+		bgSound.loopFull();*/
 
 		setTimeout(function () {
 			game.state.start("level2");

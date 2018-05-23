@@ -6,11 +6,12 @@ var update = true;
 
 //from the tutorial
 var platforms;
-var sky;
+var bg;
 var ground;
-var stars;
+var clues;
 var ledge;
 var player;
+var doors;
 var score = 0;
 var scoreText;
 var cursors;
@@ -27,7 +28,7 @@ var level1 = {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
+    game.add.sprite(0, 0, 'bg');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -53,6 +54,12 @@ var level1 = {
 
     ledge.body.immovable = true;		
 		
+	ledge = platforms.create(600, 200, 'ground');
+
+	ledge.body.immovable = true;		
+	
+
+	//platform.scale.setTo(5.5);
 		
 
 		//game.add.image(0, 0, 'bg');
@@ -102,30 +109,30 @@ var level1 = {
 		
 		
 		
-		//STARS
+		//CLUES
 		
-		 stars = game.add.group();
+		 clues = game.add.group();
 
-    	stars.enableBody = true;
+    	clues.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
     for (var i = 0; i < 12; i++)
     {
         //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
+        var clue = clues.create(i * 70, 0, 'clue');
 
         //  Let gravity do its thing
-        star.body.gravity.y = 200;
+        clue.body.gravity.y = 200;
 
         //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.2 + Math.random() * 0.2;
+        clue.body.bounce.y = 0.2 + Math.random() * 0.2;
     }
     
+		//DOOR
+		var doors = platforms.create(400, 480, 'door');
+
+		
 		cursors = game.input.keyboard.createCursorKeys();
-
-
-		
-		
 
 	},
 
@@ -135,9 +142,9 @@ var level1 = {
 		//from tutorial
 		//  Collide the player and the stars with the platforms
 		var hitPlatform = game.physics.arcade.collide(player, platforms);
-		game.physics.arcade.collide(stars, platforms);
+		game.physics.arcade.collide(clues, platforms);
 		
-		game.physics.arcade.overlap(player, stars, this.collectItem, null, this);
+		game.physics.arcade.overlap(player, clues, this.collectItem, null, this);
 
 		
 		 //  Reset the players velocity (movement)
@@ -193,11 +200,11 @@ var level1 = {
 	},
 	
 	
-	collectItem: function (player, star) {
+	collectItem: function (player, clue) {
     // Removes the star from the screen
 	score++;
 	level1.scoreTxt.setText(score.toString());
-    star.destroy();
+    clue.destroy();
 
 },
 
@@ -225,19 +232,21 @@ var level1 = {
 	},
 	// winning, loosing
 	win: function () {
-		this.cat.destroy();
-		bgSound.stop();
-		this.catcher.kill();
+
+		clues.destroy();
+		//bgSound.stop();
+		player.kill();
 		this.timer.stop();
 		// resetting the global score
 		score = 0;
 		game.state.start('splash2');
+
 	},
 
 	loose: function () {
 
-		this.catcher.kill();
-		this.cat.kill();
+		player.kill();
+		clues.kill();
 		this.timer.stop();
 		/*
 		Difference between Kill and Destroy

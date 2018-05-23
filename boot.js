@@ -53,9 +53,10 @@ var boot = {
 		game.load.audio('oowh', 'audio/oowh.mp3');*/
 		
 		
-		game.load.image('sky', 'images/sky.png');
+		game.load.image('bg', 'images/bg.png');
     	game.load.image('ground', 'images/platform.png');
-		game.load.image('star', 'images/star.png');
+		game.load.image('clue', 'images/mg.png');
+		game.load.image('door', 'images/door.png');
     	game.load.spritesheet('dude', 'images/dude.png', 32, 48);
 	
 
@@ -63,7 +64,7 @@ var boot = {
 
 	create: function () {
 
-		game.add.image(0, 0, 'sky');
+		game.add.image(0, 0, 'bg');
 		
 		var titleShadow = game.add.text(game.world.centerX + 3, 53, 'THE ANIMAL CATCHER', {
 			font: "75px Luckiest Guy",
@@ -88,20 +89,13 @@ var boot = {
 
 		var button = game.add.button(game.world.centerX - 150, 250, 'button', this.actionOnClick, this, 2, 1, 0);
 
-		this.catcher = game.add.sprite(game.width / 2, 100, 'catcher');
-		this.catcher.anchor.setTo(0.5, 0);
-		game.physics.enable(this.catcher);
-		game.physics.arcade.enableBody(this.catcher); // important for velocity (movement) + collision detection
-		this.catcher.body.collideWorldBounds = true; // catcher cannot leave the world ;-)
-		this.catcher.body.velocity.setTo(-100, 0);
-		this.catcher.body.bounce.set(1, 1);
-		
-		
-		
-		
-		//add sprite from the tutorial
-		//game.add.sprite(0, 0, 'star');
-		
+		this.dude = game.add.sprite(game.width / 2, 100, 'dude');
+		this.dude.anchor.setTo(0.5, 0);
+		game.physics.enable(this.dude);
+		game.physics.arcade.enableBody(this.dude); // important for velocity (movement) + collision detection
+		this.dude.body.collideWorldBounds = true; // catcher cannot leave the world ;-)
+		this.dude.body.velocity.setTo(-100, 0);
+		this.dude.body.bounce.set(1, 1);
 		
 		
 		
@@ -109,21 +103,21 @@ var boot = {
 
 	update: function () {
 		
-		//game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
 		
 		// changing catcher's sprite orientation on impact with the world's bounds
-		if (this.catcher.body.blocked.left) {
-			this.catcher.scale.x = -1;
-		} else if (this.catcher.body.blocked.right) {
-			this.catcher.scale.x = 1;
+		if (this.dude.body.blocked.left) {
+			this.dude.scale.x = -1;
+		} else if (this.dude.body.blocked.right) {
+			this.dude.scale.x = 1;
 		}
 
 	},
 
 	actionOnClick: function () {
 		// launching level 1 splash screen
-		game.state.start('splash1');
+		//game.state.start('splash1');
+		game.state.start('level1');
 	}
 
 }
