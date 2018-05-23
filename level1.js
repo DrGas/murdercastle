@@ -100,7 +100,9 @@ var level1 = {
     	player.animations.add('left', [0, 1, 2, 3], 10, true);
     	player.animations.add('right', [5, 6, 7, 8], 10, true);
     
-		
+		cursors = game.input.keyboard.createCursorKeys();
+
+
 		
 		
 
@@ -114,41 +116,36 @@ var level1 = {
 		var hitPlatform = game.physics.arcade.collide(player, platforms);
 		game.physics.arcade.collide(stars, platforms);
 		
-		//game.physics.arcade.overlap(this.player, this.stars, this.collectStar);
-		//  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    	//game.physics.arcade.overlap(player, stars, collectStar, null, this);
-		
-		
 		 //  Reset the players velocity (movement)
-		/*/*player.body.velocity.x = 0;
-		if (cursors.left.isDown)
-		{
-			//  Move to the left
-			player.body.velocity.x = -150;
+    player.body.velocity.x = 0;
 
-			player.animations.play('left');
-		}
-		else if (cursors.right.isDown)
-		{
-			//  Move to the right
-			player.body.velocity.x = 150;
+    if (cursors.left.isDown)
+    {
+        //  Move to the left
+        player.body.velocity.x = -150;
 
-			player.animations.play('right');
-		}
-		else
-		{
-			//  Stand still
-			player.animations.stop();
+        player.animations.play('left');
+    }
+    else if (cursors.right.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.x = 150;
 
-			player.frame = 4;
-		}
+        player.animations.play('right');
+    }
+    else
+    {
+        //  Stand still
+        player.animations.stop();
 
-		//  Allow the player to jump if they are touching the ground.
-		if (cursors.up.isDown && player.body.touching.down && hitPlatform)
-		{
-			player.body.velocity.y = -350;
-		}
-		*/ 
+        player.frame = 4;
+    }
+
+    //  Allow the player to jump if they are touching the ground.
+    if (cursors.up.isDown && player.body.touching.down && hitPlatform)
+    {
+        player.body.velocity.y = -350;
+    }
 		
 		// the countdown
 		this.tmp = formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
