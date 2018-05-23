@@ -99,6 +99,27 @@ var level1 = {
     //  Our two animations, walking left and right.
     	player.animations.add('left', [0, 1, 2, 3], 10, true);
     	player.animations.add('right', [5, 6, 7, 8], 10, true);
+		
+		
+		
+		//STARS
+		
+		 stars = game.add.group();
+
+    	stars.enableBody = true;
+
+    //  Here we'll create 12 of them evenly spaced apart
+    for (var i = 0; i < 12; i++)
+    {
+        //  Create a star inside of the 'stars' group
+        var star = stars.create(i * 70, 0, 'star');
+
+        //  Let gravity do its thing
+        star.body.gravity.y = 200;
+
+        //  This just gives each star a slightly random bounce value
+        star.body.bounce.y = 0.2 + Math.random() * 0.2;
+    }
     
 		cursors = game.input.keyboard.createCursorKeys();
 
@@ -115,6 +136,9 @@ var level1 = {
 		//  Collide the player and the stars with the platforms
 		var hitPlatform = game.physics.arcade.collide(player, platforms);
 		game.physics.arcade.collide(stars, platforms);
+		
+		game.physics.arcade.overlap(player, stars, this.collectItem, null, this);
+
 		
 		 //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
@@ -163,10 +187,13 @@ var level1 = {
 		if (score === 10) {
 			this.win();
 		}
+		
+
+		
 	},
 	
 	
-	collectStar: function () {
+	collectItem: function (player, star) {
     // Removes the star from the screen
 	score++;
 	level1.scoreTxt.setText(score.toString());

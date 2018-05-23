@@ -108,6 +108,10 @@ var boot = {
 	},
 
 	update: function () {
+		
+		//game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
+		
 		// changing catcher's sprite orientation on impact with the world's bounds
 		if (this.catcher.body.blocked.left) {
 			this.catcher.scale.x = -1;
