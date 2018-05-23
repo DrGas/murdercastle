@@ -148,7 +148,7 @@ var level1 = {
 		{
 			player.body.velocity.y = -350;
 		}
-		*/
+		*/ 
 		
 		// the countdown
 		this.tmp = formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
