@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'game');
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
 // global game variables
 var score, bgSound;
 

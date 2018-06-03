@@ -8,7 +8,7 @@ WebFontConfig = {
 
     // The Google Fonts we want to load (specify as many as you like in the array)
     google: {
-      families: ['Chewy', 'Luckiest Guy']
+      families: ['Open Sans', 'Shadows Into Light']
     },
 	
 	createText: function () {
@@ -30,7 +30,7 @@ var boot = {
     	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
 		// preloading all images files
-		game.load.image('bg', 'images/bg.png');
+		game.load.image('bg', 'images/bg04.png');
 		game.load.image('cat', 'images/cat.png');
 		game.load.image('tree', 'images/tree.png');
 		game.load.image('monkey', 'images/monkey.png');
@@ -38,7 +38,7 @@ var boot = {
 		
 		// preloading animation sprites
 		game.load.spritesheet('catcher', 'images/catcher.png', 36, 40);
-		game.load.spritesheet('button', 'images/button_sprite.png', 300, 75, 3);
+		game.load.spritesheet('button', 'images/button-sprite02.png', 303, 75, 3);
 		game.load.spritesheet('playAgain', 'images/button_again_sprite.png', 300, 75, 3);
 		
 		//  300x75 is the size of each frame
@@ -52,36 +52,37 @@ var boot = {
 		game.load.audio('monkey', 'audio/monkey.mp3');
 		game.load.audio('oowh', 'audio/oowh.mp3');*/
 		
-		
-		game.load.image('bg', 'images/bg.png');
+		game.load.image('loading-bg', 'images/loading-bg.png');
+
+		game.load.image('bg', 'images/bg04.png');
     	game.load.image('ground', 'images/platform.png');
 		game.load.image('clue', 'images/mg.png');
 		game.load.image('door', 'images/door.png');
-    	game.load.spritesheet('dude', 'images/dude.png', 32, 48);
+    	game.load.spritesheet('dude', 'images/policeman-sprite.png', 40, 50);
 	
 
 	},
 
 	create: function () {
 
-		game.add.image(0, 0, 'bg');
+		game.add.image(0, 0, 'loading-bg');
 		
-		var titleShadow = game.add.text(game.world.centerX + 3, 53, 'THE ANIMAL CATCHER', {
-			font: "75px Luckiest Guy",
+		var titleShadow = game.add.text(game.world.centerX + 3, 53, 'THE MURDER CASTLE', {
+			font: "75px Shadows Into Light",
 			fill: "#000"
 		});
 		
 		titleShadow.anchor.set(0.5);
 		
-		var title = game.add.text(game.world.centerX, 50, 'THE ANIMAL CATCHER', {
-			font: "75px Luckiest Guy",
+		var title = game.add.text(game.world.centerX, 50, 'THE MURDER CASTLE', {
+			font: "75px Shadows Into Light",
 			fill: "#fff"
 		});
 		
 		title.anchor.set(0.5);
 		
-		var subTitle = game.add.text(game.world.centerX, 230, 'Phaser 2/CE demo, 2 levels', {
-			font: "25px Chewy",
+		var subTitle = game.add.text(game.world.centerX, 230, 'Phaser 2/CE EXAM DEMO, 2 levels', {
+			font: "25px Shadows Into Light",
 			fill: "#fff"
 		});
 		
