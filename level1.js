@@ -68,11 +68,11 @@ var level1 = {
 		button.visible = false;
 
 		this.scoreTxt = game.add.text(10, 10, score.toString(), {
-			font: "30px Arial",
+			font: "30px Shadows Into Light",
 			fill: "#ff0"
 		});
 		
-		this.scoreTxt.font = 'Chewy';
+		this.scoreTxt.font = 'Shadows Into Light';
 
 		// Create a custom timer (global variable countDown + format function in game.js)
 		this.timer = game.time.create();
@@ -85,11 +85,11 @@ var level1 = {
 
 		// Display the timer
 		this.txtTimer = game.add.text(740, 10, formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000)), {
-			font: "40px Arial",
-			fill: "#ff0044"
+			font: "40px Shadows Into Light",
+			fill: "#a02a2a"
 		});
 		
-		this.txtTimer.font = 'Chewy';
+		this.txtTimer.font = 'Shadows Into Light';
 		
 		
 		//code from the tutorial
@@ -255,9 +255,9 @@ var level1 = {
 
 		Destroy should remove the object and everything related to it. You use this when you want to send the object to the garbage collector.
 		*/
-		txtGameOver = game.add.text(game.world.centerX, -100, "GAME OVER - YOU LOST :-(", {
-			font: "50px Luckiest Guy",
-			fill: "#ff0044"
+		txtGameOver = game.add.text(game.world.centerX, -100, "GAME OVER - YOU LOST", {
+			font: "50px Shadows Into Light",
+			fill: "a02a2a"
 		});
 		txtGameOver.anchor.set(0.5);
 		// text animation

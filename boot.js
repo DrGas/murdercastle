@@ -59,7 +59,7 @@ var boot = {
 		game.load.image('clue', 'images/mg.png');
 		game.load.image('door', 'images/door.png');
     	game.load.spritesheet('dude', 'images/policeman-sprite.png', 40, 50);
-	
+    	//game.load.spritesheet('holmes', 'images/policeman-sprite.png', 40, 50);
 
 	},
 
