@@ -6,7 +6,7 @@ var splash2 = {
 
 		game.add.image(0, 0, 'loading-bg');
 
-		var instructions = game.add.text(game.world.centerX, -50, 'Level 2: \nCollect all the items of missing persons and don’t get caught by the killer!!', {
+		var instructions = game.add.text(game.world.centerX, -50, 'Level 2: \nCollect all the items of missing persons \nand don’t get caught by the killer!!', {
 			font: "25px Verdana",
 			fill: "#fff"
 		});
@@ -22,10 +22,7 @@ var splash2 = {
 		introSound.play();
 		introSound.loopFull;
 		
-		// Add the background sound
-		bgSound = game.add.audio('wouldn_doo');
-		bgSound.play();
-		bgSound.loopFull();
+	
 
 		setTimeout(function () {
 			game.state.start("level2");

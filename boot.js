@@ -38,6 +38,8 @@ var boot = {
 		game.load.audio('click', 'audio/click02.mp3');
 		game.load.audio('bgSound', 'audio/hunting.mp3');
 		game.load.audio('hauntedhouse', 'audio/hauntedhouse.mp3');
+		game.load.audio('winSound', 'audio/TaDa.mp3');
+
 
 
 		// preloading all images files
@@ -115,7 +117,7 @@ var boot = {
 	actionOnClick: function () {
 		// launching level 1 splash screen
 		//game.state.start('splash1');
-		game.state.start('splash1');
+		game.state.start('level2');
 	}
 
 }

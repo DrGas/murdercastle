@@ -150,6 +150,8 @@ var level2 = {
 		bgSound.loopFull;
 
 		
+
+		
 		//HHHOLMES
 	/*	hhh = game.add.sprite(400, game.world.height - 350, 'hhh');
 		game.physics.enable(hhh);
@@ -181,21 +183,17 @@ var level2 = {
 		game.add.tween(this.hhh).to(
 			{x: 300}, 3000, Phaser.Easing.Linear.None, true, 0, 1000, true)
 
-
-		
 				
 	},
 
 	update: function () {
 	
-		
-		//from tutorial
-		//  Collide the player and the stars with the platforms
+		//  Collide the player and the object with the platforms
 		var hitPlatform = game.physics.arcade.collide(player, platforms);
 		game.physics.arcade.collide(bags, platforms);
 
 		game.physics.arcade.overlap(player, bags, this.collectItem, null, this);
-		game.physics.arcade.overlap(player, hhh, hitHHH, null, this);
+		game.physics.arcade.overlap(player, this.hhh, this.hitHHH, null, this);
 
 
 		
@@ -243,7 +241,7 @@ var level2 = {
 		}
 
 		// winning
-		if (score === 10) {
+		if (score === 12) {
 			this.win();
 		}
 		
@@ -262,26 +260,7 @@ var level2 = {
 
 },
 	
-	
-	
 
-/*	catHitHandler: function () {
-		// playing the catch animation
-		level1.catcher.animations.play('catch');
-		
-		this.catcherSound = game.add.audio('woosh');
-		this.catcherSound.play();
-
-		this.catSound = game.add.audio('cat');
-		this.catSound.volume = 0.5;
-		this.catSound.play();
-
-		level1.cat.x = Math.random() * game.width;
-		level1.cat.y = Math.random() * game.height;
-		score++;
-		level1.scoreTxt.setText(score.toString());
-		
-	},*/
 
 	endTimer: function () {
 		// Stop the timer when the delayed event triggers
@@ -289,15 +268,24 @@ var level2 = {
 	},
 	// winning, loosing
 	win: function () {
-
-		bags.destroy();
-		//bgSound.stop();
+		update = false;
 		player.kill();
+		this.hhh.kill();
 		this.timer.stop();
-		// resetting the global score
+		bgSound.stop();
+		this.winSound = game.add.audio('winSound');
+		this.winSound.play();
+		txtGameOver = game.add.text(game.world.centerX, -100, "CONGRATULATIONS \nYOU SURVIVED \nTHE MURDER CASTLE!", {
+			font: "50px Shadows Into Light",
+			fill: "#FFF"
+		});
+		txtGameOver.anchor.set(0.5);
+		tween = game.add.tween(txtGameOver).to({
+			y: game.world.centerY
+		}, 1500, Phaser.Easing.Bounce.Out, true);
+		//RESET GLOBAL SCORE
 		score = 0;
-		game.state.start('splashwin');
-		console.log("win");
+
 
 	},
 
@@ -305,9 +293,10 @@ var level2 = {
 
 		bags.destroy();
 		//bgSound.stop();
-		this.player.kill();
+		player.kill();
 		this.hhh.kill();
 		this.timer.stop();
+		
 		
 		/*
 		Difference between Kill and Destroy
@@ -334,19 +323,34 @@ var level2 = {
 		// resetting update when replaying the level
 		update = true;
 		// launching level 1 again
-		//game.state.start('level1');
+		game.state.start('level2');
 	},	
 	
-	
+	hitHHH: function() {
+		console.log("hitted");
+		this.hhh.kill();
+		player.kill();
+		
+		txtGameOver = game.add.text(game.world.centerX, -100, "GAME OVER - YOU LOST", {
+			font: "50px Shadows Into Light",
+			fill: "#FFF"
+		});
+		txtGameOver.anchor.set(0.5);
+		// text animation
+		tween = game.add.tween(txtGameOver).to({
+			y: game.world.centerY-200
+		}, 1500, Phaser.Easing.Bounce.Out, true);
+		// revealing the playAgain button
+		button.visible = true;
+		
+	}
 	
 	};
 
-function hitHHH (player, hhh) {
+/*function hitHHH (player, hhh) {
    console.log("dieeee");
 		player.kill();
-		hhh.kill();
+		hhh.kill();*/
 		
-		
-
-}
+	
 	

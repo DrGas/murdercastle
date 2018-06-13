@@ -22,10 +22,7 @@ var splash1 = {
 		introSound.play();
 		introSound.loopFull;
 		
-		// Add the background sound
-		bgSound = game.add.audio('wouldn_doo');
-		bgSound.play();
-		bgSound.loopFull();
+	
 
 		setTimeout(function () {
 			game.state.start("level1");
