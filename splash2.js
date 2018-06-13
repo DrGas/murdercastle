@@ -1,35 +1,42 @@
-// Splash screen level 2, JS object literal notation
+// Splash screen level 1, JS object literal notation
+
 var splash2 = {
 
 	create: function () {
-		game.add.image(0, 0, 'bg');
 
-		var instructions = game.add.text(game.world.centerX, -50, 'Level 2:\nMove around the palms and catch all monkeys.\nBut be aware of the snake!', {
-			font: "25px Luckiest Guy",
+		game.add.image(0, 0, 'loading-bg');
+
+		var instructions = game.add.text(game.world.centerX, -50, 'Level 2: \nCollect all the items of missing persons and don’t get caught by the killer!!', {
+			font: "25px Verdana",
 			fill: "#fff"
 		});
-
-		instructions.anchor.setTo(0.5);
-
+		
+		instructions.anchor.set(0.5);
+		
 		tween = game.add.tween(instructions).to({
-			y: game.world.centerY
+			y: game.world.centerY-100
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		tween.onComplete.add(onComplete, this);
-
+		
+		introSound = game.add.audio('hauntedhouse');
+		introSound.play();
+		introSound.loopFull;
+		
 		// Add the background sound
-		/*bgSound.stop();
-		bgSound = game.add.audio('jungle');
+		bgSound = game.add.audio('wouldn_doo');
 		bgSound.play();
-		bgSound.loopFull();*/
+		bgSound.loopFull();
 
 		setTimeout(function () {
 			game.state.start("level2");
 		}, 5000);
-
+		
 		function onComplete() {
 
-			tween = game.add.tween(instructions).to( { y: 700 }, 1000, Phaser.Easing.Exponential.Out, true, 2500);
+    		this.tween = game.add.tween(instructions).to( { y: 700 }, 1000, Phaser.Easing.Exponential.Out, true, 2500);
 
-		}
-	}
+			}
+		
+	},
+
 };

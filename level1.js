@@ -4,7 +4,6 @@ var button;
 // variable to control the feedback message display
 var update = true;
 
-//from the tutorial
 var platforms;
 var bg;
 var ground;
@@ -64,12 +63,12 @@ var level1 = {
 
 		//game.add.image(0, 0, 'bg');
 		// button needs to be created here, but is hidden as default
-		button = game.add.button(game.world.centerX - 150, 450, 'playAgain', this.actionOnClick, this, 2, 1, 0);
+		button = game.add.button(game.world.centerX - 150, 150, 'playAgain', this.actionOnClick, this, 2, 1, 0);
 		button.visible = false;
 
 		this.scoreTxt = game.add.text(10, 10, score.toString(), {
 			font: "30px Shadows Into Light",
-			fill: "#ff0"
+			fill: "#779597"
 		});
 		
 		this.scoreTxt.font = 'Shadows Into Light';
@@ -86,7 +85,7 @@ var level1 = {
 		// Display the timer
 		this.txtTimer = game.add.text(740, 10, formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000)), {
 			font: "40px Shadows Into Light",
-			fill: "#a02a2a"
+			fill: "#779597"
 		});
 		
 		this.txtTimer.font = 'Shadows Into Light';
@@ -129,10 +128,16 @@ var level1 = {
     }
     
 		//DOOR
-		var doors = platforms.create(400, 480, 'door');
+		var doors = platforms.create(200, 460, 'door');
+		doors.body.immovable = true;
 
-		
+		//MOVEMENT
 		cursors = game.input.keyboard.createCursorKeys();
+		
+		//SOUND
+		bgSound = game.add.audio('bgSound');
+		bgSound.play();
+		bgSound.loopFull;
 
 	},
 
@@ -191,11 +196,9 @@ var level1 = {
 		}
 
 		// winning
-		if (score === 10) {
+		if (score === 12) {
 			this.win();
 		}
-		
-
 		
 	},
 	
@@ -208,23 +211,7 @@ var level1 = {
 
 },
 
-/*	catHitHandler: function () {
-		// playing the catch animation
-		level1.catcher.animations.play('catch');
-		
-		this.catcherSound = game.add.audio('woosh');
-		this.catcherSound.play();
 
-		this.catSound = game.add.audio('cat');
-		this.catSound.volume = 0.5;
-		this.catSound.play();
-
-		level1.cat.x = Math.random() * game.width;
-		level1.cat.y = Math.random() * game.height;
-		score++;
-		level1.scoreTxt.setText(score.toString());
-		
-	},*/
 
 	endTimer: function () {
 		// Stop the timer when the delayed event triggers
@@ -257,12 +244,12 @@ var level1 = {
 		*/
 		txtGameOver = game.add.text(game.world.centerX, -100, "GAME OVER - YOU LOST", {
 			font: "50px Shadows Into Light",
-			fill: "a02a2a"
+			fill: "#FFF"
 		});
 		txtGameOver.anchor.set(0.5);
 		// text animation
 		tween = game.add.tween(txtGameOver).to({
-			y: game.world.centerY
+			y: game.world.centerY-200
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		// revealing the playAgain button
 		button.visible = true;

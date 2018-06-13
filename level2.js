@@ -1,67 +1,87 @@
-// global variables
-var winningCondition = 10;
+// The first level, JS object literal notation
+// global variable for the playAgain button
+var button;
 // variable to control the feedback message display
 var update = true;
-var button;
 
-// JS object literal notation
+//from the tutorial
+var platforms02;
+var bg;
+var ground02;
+var bags;
+var ledge;
+var player;
+var hhh;
+var doors;
+var score = 0;
+var scoreText;
+var cursors;
+var width;
+var killer;
+
+
 var level2 = {
 
 	create: function () {
-		// attaching the background image
-		game.add.image(0, 0, 'bg');
-		// the catcher sprite
-		this.catcher = game.add.sprite(game.width / 2, game.height / 2, 'catcher');
-		this.catcher.anchor.setTo(0.5, 0);
-		// animation added (name, frames, frameRate, loop)
-		this.catcher.animations.add('catch', [0, 1, 2, 3, 4], 42, false);
-		// default idle frame, with the catcher facing left
-        this.catcher.frame = 0;
-		game.physics.enable(this.catcher);
-		game.physics.arcade.enableBody(this.catcher); // important for velocity (movement) + collision detection
-		this.catcher.body.collideWorldBounds = true; // catcher cannot leave the world ;-)
+		
+		//BACKGROUND AND LEDGES
+		
+ //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
-		this.trees = this.add.group(); // adding a "normal" group
-		//this.trees = game.add.physicsGroup(); // physicsGroup to enable collision detection
-		//game.physics.arcade.enableBody(this.trees); // enablng physics for a whole group
-
-		for (var i = 0; i < 20; i++) {
-			// populating the trees group with 20 randomly placed tree sprites
-			// create(x, y, image)
-			let sprite = this.trees.create(game.rnd.between(50, 750), game.rnd.between(30, 550), 'tree');
-			game.physics.enable(sprite); // enabling physics on every single tree
-			game.physics.arcade.enableBody(sprite);
-			sprite.body.allowGravity = false;
-			sprite.body.immovable = true;
-
-		}
-
-		this.monkeys = this.add.group();
-		for (var i = 0; i < winningCondition; i++) {
-			let sprite = this.monkeys.create(game.rnd.between(100, 700), game.rnd.between(50, 550), 'monkey');
-			game.physics.enable(sprite); // enabling physics on every single tree
-			game.physics.arcade.enableBody(sprite);
-			sprite.body.collideWorldBounds = true;
-			sprite.body.velocity.setTo(60, 60);
-			sprite.body.bounce.set(1, 1);
-			sprite.body.gravity.set(45, 30);
-		}
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'bg02');
 
 
-		// the snake
-		this.snake = game.add.sprite(game.rnd.between(600, 800), game.rnd.between(0, 200), 'snake');
-		this.snake.anchor.setTo(0.5, 0);
-		game.physics.enable(this.snake);
-		game.physics.arcade.enableBody(this.snake);
-		this.snake.body.collideWorldBounds = true;
+    //  The platforms group contains the ground and the 2 ledges we can jump on
+    platforms = game.add.group();
 
-		this.snake.body.velocity.setTo(100, 100);
-		this.snake.body.bounce.set(0.9, 0.8);
-		this.snake.body.gravity.set(25, 30);
+    //  We will enable physics for any object that is created in this group
+    platforms.enableBody = true;
 
+    // Here we create the ground.
+    var ground = platforms.create(0, game.world.height - 64, 'ground02');
+
+    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+    ground.scale.setTo(2, 2);
+
+    //  This stops it from falling away when you jump on it
+    ground.body.immovable = true;
+
+    //  Now let's create two ledges
+    var ledge = platforms.create(400, 400, 'ground02'); //bottom right
+
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(-150, 250, 'ground02'); //left
+
+    ledge.body.immovable = true;		
+		
+	ledge = platforms.create(600, 200, 'ground02');
+	
+	ledge.body.immovable = true;		
+
+	
+	ledge = platforms.create(-300, 100, 'ground02');
+
+
+	ledge.body.immovable = true;		
+	
+
+	//platform.scale.setTo(5.5);
+		
+
+		//game.add.image(0, 0, 'bg');
 		// button needs to be created here, but is hidden as default
-		button = game.add.button(game.world.centerX - 150, 450, 'playAgain', this.actionOnClick, this, 2, 1, 0);
+		button = game.add.button(game.world.centerX - 150, 150, 'playAgain', this.actionOnClick, this, 2, 1, 0);
 		button.visible = false;
+
+		this.scoreTxt = game.add.text(10, 10, score.toString(), {
+			font: "30px Shadows Into Light",
+			fill: "#779597"
+		});
+		
+		this.scoreTxt.font = 'Shadows Into Light';
 
 		// Create a custom timer (global variable countDown + format function in game.js)
 		this.timer = game.time.create();
@@ -74,126 +94,221 @@ var level2 = {
 
 		// Display the timer
 		this.txtTimer = game.add.text(740, 10, formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000)), {
-			font: "40px Chewy",
-			fill: "#ff0044"
+			font: "40px Shadows Into Light",
+			fill: "#779597"
 		});
+		
+		this.txtTimer.font = 'Shadows Into Light';
+		
+		
+		//code from the tutorial
+		//  We're going to be using physics, so enable the Arcade Physics system
 
-		// enabling keyboard input
-		this.cursors = game.input.keyboard.createCursorKeys();
+		player = game.add.sprite(32, game.world.height - 150, 'dude');
+		game.physics.enable(player);
+		game.physics.arcade.enableBody(player); 
+		
+		player.body.bounce.y = 0.2;
+    	player.body.gravity.y = 300;
+    	player.body.collideWorldBounds = true;
 
+    //  Our two animations, walking left and right.
+    	player.animations.add('left', [0, 1, 2, 3], 10, true);
+    	player.animations.add('right', [5, 6, 7, 8], 10, true);
+		
+		
+		
+		//CLUES - BAGS
+		
+		 bags = game.add.group();
+
+    	bags.enableBody = true;
+
+    //  Here we'll create 12 of them evenly spaced apart
+    for (var i = 0; i < 12; i++)
+    {
+        //  Create a star inside of the 'stars' group
+        var bag = bags.create(i * 70, 0, 'bag');
+
+        //  Let gravity do its thing
+        bag.body.gravity.y = 200;
+
+        //  This just gives each star a slightly random bounce value
+        bag.body.bounce.y = 0.2 + Math.random() * 0.2;
+    }
+    
+		//DOOR
+		var doors = platforms.create(200, 460, 'door');
+		doors.body.immovable = true;
+
+		//MOVEMENT
+		cursors = game.input.keyboard.createCursorKeys();
+		
+		//SOUND
+		bgSound = game.add.audio('bgSound');
+		bgSound.play();
+		bgSound.loopFull;
+
+		
+		//HHHOLMES
+	/*	hhh = game.add.sprite(400, game.world.height - 350, 'hhh');
+		game.physics.enable(hhh);
+		game.physics.arcade.enableBody(hhh); 
+		
+		hhh.body.bounce.y = 0.2;
+    	hhh.body.gravity.y = 300;
+    	hhh.body.collideWorldBounds = true;*/
+		
+		
+	/*	
+		this.hhh = game.add.sprite(400, game.world.height - 350, 'hhh');
+		this.hhh.anchor.setTo(-3, -2);
+		game.physics.enable(this.hhh);
+		game.physics.arcade.enableBody(this.hhh); // important for velocity (movement) + collision detection
+		this.hhh.body.collideWorldBounds = true; //cannot leave the world
+		this.hhh.body.velocity.setTo(-100, 0);
+		this.hhh.body.bounce.set(1, 1);
+		//this.hhh.body.blocked.left(400);*/
+		
+		
+		this.hhh = game.add.group();
+		game.physics.arcade.enable(this.hhh);
+		//  We will enable physics for any object that is created in this group
+		this.hhh.enableBody = true;
+		this.killer = this.hhh.create(400, 340, 'hhh');
+	
+		//tween to move the jellyfishs
+		game.add.tween(this.hhh).to(
+			{x: 300}, 3000, Phaser.Easing.Linear.None, true, 0, 1000, true)
+
+
+		
+				
 	},
 
 	update: function () {
+	
+		
+		//from tutorial
+		//  Collide the player and the stars with the platforms
+		var hitPlatform = game.physics.arcade.collide(player, platforms);
+		game.physics.arcade.collide(bags, platforms);
 
-		// velocity (property on body) moves the catcher/monkey in any direction
-		// variable for movement speed
-		var speed = 150;
-		// default velocity is 0 (catcher is not moving)
-		this.catcher.body.velocity.x = 0;
-		this.catcher.body.velocity.y = 0;
-
-		if (this.cursors.left.isDown) {
-			this.catcher.body.velocity.x = -speed;
-			this.catcher.scale.x = 1;
-			// moveToObject(displayObject, destination, speed, maxTime) → {number}
-			// Move the given display object (snake) towards the destination object (catcher) at a steady velocity.
-			game.physics.arcade.moveToObject(this.snake, this.catcher, 80, 1400);
-		}
-		if (this.cursors.right.isDown) {
-			this.catcher.body.velocity.x = speed;
-			this.catcher.scale.x = -1;
-			game.physics.arcade.moveToObject(this.snake, this.catcher, 80, 1400);
-		}
-		if (this.cursors.up.isDown) {
-			this.catcher.body.velocity.y = -speed;
-			game.physics.arcade.moveToObject(this.snake, this.catcher, 80, 1400);
-		}
-		if (this.cursors.down.isDown) {
-			this.catcher.body.velocity.y = speed;
-			game.physics.arcade.moveToObject(this.snake, this.catcher, 80, 1400);
-		}
-
-		// collision and overlaps
-		game.physics.arcade.collide(this.catcher, this.trees);
-		game.physics.arcade.collide(this.monkeys, this.trees);
-		game.physics.arcade.collide(this.snake, this.trees);
-		game.physics.arcade.collide(this.monkeys, this.monkeys);
-
-		game.physics.arcade.overlap(this.catcher, this.monkeys, this.catchAnimal);
-		game.physics.arcade.overlap(this.catcher, this.snake, this.killCatcher);
+		game.physics.arcade.overlap(player, bags, this.collectItem, null, this);
+		game.physics.arcade.overlap(player, hhh, hitHHH, null, this);
 
 
+		
+		 //  Reset the players velocity (movement)
+    player.body.velocity.x = 0;
+
+    if (cursors.left.isDown)
+    {
+        //  Move to the left
+        player.body.velocity.x = -150;
+
+        player.animations.play('left');
+    }
+    else if (cursors.right.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.x = 150;
+
+        player.animations.play('right');
+    }
+    else
+    {
+        //  Stand still
+        player.animations.stop();
+
+        player.frame = 4;
+    }
+
+    //  Allow the player to jump if they are touching the ground.
+    if (cursors.up.isDown && player.body.touching.down && hitPlatform)
+    {
+        player.body.velocity.y = -350;
+    }
+		
 		// the countdown
 		this.tmp = formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
 
-		// losing
 		if (this.timer.running && this.tmp >= 0) {
 			this.txtTimer.text = formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
-		} else if (score < winningCondition && update === true) {
+		} else if (score < 10 && update === true) {
+			// calling the function handling a "loose" scenario
 			this.loose();
+			// update is used to prevent the Phaser update loop calling this function indefinitely
 			update = false;
 		}
 
 		// winning
-		if (score === winningCondition && update === true) {
+		if (score === 10) {
 			this.win();
 		}
-	},
+		
 
-	// collision and overlaps handlers
-	catchAnimal: function (player, animal) {
-		// in here, 'player' is the player, and 'animal' is the monkey the player collided with
-		player.animations.play('catch');
+		
+	},
+	
+	
+	collectItem: function (player, bag) {
+    // Removes the star from the screen
+	score++;
+	level2.scoreTxt.setText(score.toString());
+    bag.destroy();
+		
+		
+
+},
+	
+	
+	
+
+/*	catHitHandler: function () {
+		// playing the catch animation
+		level1.catcher.animations.play('catch');
+		
 		this.catcherSound = game.add.audio('woosh');
 		this.catcherSound.play();
-		this.monkeySound = game.add.audio('monkey');
-		// avoiding sound doubling
-		this.monkeySound.stop();
-		this.monkeySound.play();
+
+		this.catSound = game.add.audio('cat');
+		this.catSound.volume = 0.5;
+		this.catSound.play();
+
+		level1.cat.x = Math.random() * game.width;
+		level1.cat.y = Math.random() * game.height;
 		score++;
-		console.log(score);
-		animal.kill();
-		//animal.destroy();
-	},
+		level1.scoreTxt.setText(score.toString());
+		
+	},*/
 
-	killCatcher: function (player) {
-		this.catcherSound = game.add.audio('oowh');
-		this.catcherSound.play();
-		player.kill();
-		level2.loose();
-		level2.timer.stop();
-	},
-
-	// end timer handling
 	endTimer: function () {
 		// Stop the timer when the delayed event triggers
 		this.timer.stop();
 	},
-
-	// winning / loosing
+	// winning, loosing
 	win: function () {
-		update = false;
-		this.catcher.kill();
+
+		bags.destroy();
+		//bgSound.stop();
+		player.kill();
 		this.timer.stop();
-		txtGameOver = game.add.text(-800, game.world.centerY, "YOU WON THE GAME :-)", {
-			font: "25px Luckiest Guy",
-			fill: "#ff0044"
-		});
-		txtGameOver.anchor.set(0.5);
-		tween = game.add.tween(txtGameOver).to({
-			x: game.world.centerX
-		}, 1500, Phaser.Easing.Bounce.Out, true);
-		/*
-		// freezing the game at current state
-		game.lockRender = true;
-		*/
+		// resetting the global score
+		score = 0;
+		game.state.start('splashwin');
+		console.log("win");
 
 	},
 
 	loose: function () {
 
-		this.catcher.kill();
-
+		bags.destroy();
+		//bgSound.stop();
+		this.player.kill();
+		this.hhh.kill();
+		this.timer.stop();
+		
 		/*
 		Difference between Kill and Destroy
 
@@ -201,23 +316,37 @@ var level2 = {
 
 		Destroy should remove the object and everything related to it. You use this when you want to send the object to the garbage collector.
 		*/
-
-		txtGameOver = game.add.text(game.world.centerX, -100, "GAME OVER - YOU LOST :-(", {
-			font: "50px Luckiest Guy",
-			fill: "#ff0044"
+		txtGameOver = game.add.text(game.world.centerX, -100, "GAME OVER - YOU LOST", {
+			font: "50px Shadows Into Light",
+			fill: "#FFF"
 		});
 		txtGameOver.anchor.set(0.5);
+		// text animation
 		tween = game.add.tween(txtGameOver).to({
-			y: game.world.centerY
+			y: game.world.centerY-200
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		// revealing the playAgain button
 		button.visible = true;
-
 	},
+
 	actionOnClick: function () {
 		score = 0;
+		// resetting update when replaying the level
 		update = true;
-		// launching level 2 again
-		game.state.start('level2');
-	}
-};
+		// launching level 1 again
+		//game.state.start('level1');
+	},	
+	
+	
+	
+	};
+
+function hitHHH (player, hhh) {
+   console.log("dieeee");
+		player.kill();
+		hhh.kill();
+		
+		
+
+}
+	

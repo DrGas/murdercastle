@@ -29,43 +29,44 @@ var boot = {
 		// Load the Google WebFont Loader script
     	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
-		// preloading all images files
-		game.load.image('bg', 'images/bg04.png');
-		game.load.image('cat', 'images/cat.png');
-		game.load.image('tree', 'images/tree.png');
-		game.load.image('monkey', 'images/monkey.png');
-		game.load.image('snake', 'images/snake.png');
 		
 		// preloading animation sprites
-		game.load.spritesheet('catcher', 'images/catcher.png', 36, 40);
-		game.load.spritesheet('button', 'images/button-sprite02.png', 303, 75, 3);
-		game.load.spritesheet('playAgain', 'images/button_again_sprite.png', 300, 75, 3);
+		game.load.spritesheet('button', 'images/button-sprite02.png', 300, 75, 3);
+		game.load.spritesheet('playAgain', 'images/button_again_sprite02.png', 300, 75, 3);
 		
-		//  300x75 is the size of each frame
-		//  There are 3 frames in the PNG - you can leave this value blank if the frames fill up the entire PNG...
+		
+		game.load.audio('click', 'audio/click02.mp3');
+		game.load.audio('bgSound', 'audio/hunting.mp3');
+		game.load.audio('hauntedhouse', 'audio/hauntedhouse.mp3');
 
-		// preloading all audio files
-		/*game.load.audio('wouldn_doo', 'audio/level1.mp3');
-		game.load.audio('cat', 'audio/cat.mp3');
-		game.load.audio('woosh', 'audio/airslide.mp3');
-		game.load.audio('jungle', 'audio/level2.mp3');
-		game.load.audio('monkey', 'audio/monkey.mp3');
-		game.load.audio('oowh', 'audio/oowh.mp3');*/
-		
+
+		// preloading all images files
+
 		game.load.image('loading-bg', 'images/loading-bg.png');
 
 		game.load.image('bg', 'images/bg04.png');
+		game.load.image('bg02', 'images/bg05.png');
+		game.load.image('bgwin', 'images/bg-win.png');
+
     	game.load.image('ground', 'images/platform.png');
+		game.load.image('ground02', 'images/platform02.png');
+
 		game.load.image('clue', 'images/mg.png');
 		game.load.image('door', 'images/door.png');
     	game.load.spritesheet('dude', 'images/policeman-sprite.png', 40, 50);
     	//game.load.spritesheet('holmes', 'images/policeman-sprite.png', 40, 50);
+		
+		game.load.image('bag', 'images/bag.png');
+		game.load.image('hhh', 'images/hhholmes.png');
+
+
 
 	},
 
 	create: function () {
 
 		game.add.image(0, 0, 'loading-bg');
+			
 		
 		var titleShadow = game.add.text(game.world.centerX + 3, 53, 'THE MURDER CASTLE', {
 			font: "75px Shadows Into Light",
@@ -99,14 +100,10 @@ var boot = {
 		this.dude.body.bounce.set(1, 1);
 		
 		
-		
 	},
 
 	update: function () {
 		
-
-		
-		// changing catcher's sprite orientation on impact with the world's bounds
 		if (this.dude.body.blocked.left) {
 			this.dude.scale.x = -1;
 		} else if (this.dude.body.blocked.right) {
@@ -118,7 +115,7 @@ var boot = {
 	actionOnClick: function () {
 		// launching level 1 splash screen
 		//game.state.start('splash1');
-		game.state.start('level1');
+		game.state.start('splash1');
 	}
 
 }
