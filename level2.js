@@ -179,7 +179,7 @@ var level2 = {
 		this.hhh.enableBody = true;
 		this.killer = this.hhh.create(400, 340, 'hhh');
 	
-		//tween to move the jellyfishs
+		//tween to move
 		game.add.tween(this.hhh).to(
 			{x: 300}, 3000, Phaser.Easing.Linear.None, true, 0, 1000, true)
 

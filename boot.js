@@ -21,6 +21,8 @@ WebFontConfig = {
 var boot = {
 
 	preload: function () {
+		"use strict";
+
 		// Add the loadingbar to the scene:
 		var loadingBar = game.add.sprite(game.world.centerX - (387 / 2), 400, 'loading');
 
@@ -66,7 +68,7 @@ var boot = {
 	},
 
 	create: function () {
-
+		"use strict";
 		game.add.image(0, 0, 'loading-bg');
 			
 		
@@ -105,7 +107,7 @@ var boot = {
 	},
 
 	update: function () {
-		
+		"use strict";
 		if (this.dude.body.blocked.left) {
 			this.dude.scale.x = -1;
 		} else if (this.dude.body.blocked.right) {
@@ -117,7 +119,7 @@ var boot = {
 	actionOnClick: function () {
 		// launching level 1 splash screen
 		//game.state.start('splash1');
-		game.state.start('level2');
+		game.state.start('splash1');
 	}
 
 }
